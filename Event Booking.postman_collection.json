@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "709120b8-c21b-46ec-9c56-01786626db34",
+		"name": "Event Booking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "8886209"
+	},
+	"item": [
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "get events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/events"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Sample Event\",\r\n  \"description\": \"An example\",\r\n  \"start_time\": \"2025-06-01T10:00:00\",\r\n  \"end_time\": \"2025-06-01T12:00:00\",\r\n  \"country\": \"USA\",\r\n  \"capacity\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/events"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Sample Event\",\r\n  \"description\": \"Sample Event\",\r\n  \"start_time\": \"2025-06-01T10:00:00\",\r\n  \"end_time\": \"2025-06-01T12:00:00\",\r\n  \"country\": \"USA\",\r\n  \"capacity\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/events/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/events/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attendee",
+			"item": [
+				{
+					"name": "get atendee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/attendees"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Rohan\",\r\n  \"email\": \"rohan@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/attendees"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"attendee_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/events/1/book"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
