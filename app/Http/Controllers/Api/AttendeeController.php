@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateAttendeeRequest;
 use App\Models\Attendee;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class AttendeeController extends Controller
 {
@@ -14,19 +13,9 @@ class AttendeeController extends Controller
         return response()->json(Attendee::all());
     }
 
-    public function store(Request $request)
+    public function store(CreateAttendeeRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:attendees,email',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $attendee = Attendee::create($request->all());
-
+        $attendee = Attendee::create($request->validated());
         return response()->json($attendee, 201);
     }
 }
