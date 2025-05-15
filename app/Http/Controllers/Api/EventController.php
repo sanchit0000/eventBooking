@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use App\Traits\HandlesApiErrors;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
 class EventController extends Controller
 {
@@ -17,24 +17,22 @@ class EventController extends Controller
     public function index()
     {
         try {
-            $events = Event::withCount('bookings')->paginate(10);
-            return EventResource::collection($events);
+            return EventResource::collection(Event::withCount('bookings')->paginate(10));
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
     }
 
-    public function store(CreateEventRequest $request)
+    public function store(CreateEventRequest $request): JsonResponse|EventResource
     {
         try {
-            $event = Event::create($request->validated());
-            return new EventResource($event);
+            return new EventResource(Event::create($request->validated()));
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
     }
 
-    public function show(Event $event)
+    public function show(Event $event): JsonResponse|EventResource
     {
         try {
             return new EventResource($event->load('bookings'));
@@ -43,30 +41,17 @@ class EventController extends Controller
         }
     }
 
-    public function update(Request $request, Event $event)
+    public function update(UpdateEventRequest $request, Event $event): JsonResponse|EventResource
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'title' => 'sometimes|string',
-                'description' => 'nullable|string',
-                'start_time' => 'sometimes|date',
-                'end_time' => 'sometimes|date|after:start_time',
-                'country' => 'sometimes|string',
-                'capacity' => 'sometimes|integer|min:1',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
-
-            $event->update($request->all());
+            $event->update($request->validated());
             return new EventResource($event);
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
     }
 
-    public function destroy(Event $event)
+    public function destroy(Event $event): JsonResponse
     {
         try {
             $event->delete();

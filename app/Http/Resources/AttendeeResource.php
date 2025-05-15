@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class AttendeeResource extends JsonResource
 {
-    public function toArray(Request $request) // Add Request parameter
+    public function toArray(Request $request)
     {
         return [
             'id' => $this->id,
